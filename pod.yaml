@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: car-price-predictor
+  name: loadbalancer-pod   # ✅ Changed from car-price-predictor to loadbalancer-pod
 spec:
   replicas: 2
   selector:
