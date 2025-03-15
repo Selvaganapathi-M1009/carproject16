@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Price Prediction</title>
+</head>
+<body>
+    <h2>Enter Car Details</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Year:</label>
+        <input type="number" name="year" required><br><br>
+
+        <label>KM Driven:</label>
+        <input type="number" name="km_driven" required><br><br>
+
+        <label>Fuel Type:</label>
+        <select name="fuel_type">
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="CNG">CNG</option>
+        </select><br><br>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if predicted_price %}
+    <h3>Predicted Price: {{ predicted_price }}</h3>
+    {% endif %}
+</body>
+</html>
