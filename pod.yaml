@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: loadbalancer-pod   # ✅ Changed from car-price-predictor to loadbalancer-pod
+  name: loadbalancer-pod   # ✅ Matches the name used in Jenkins script
 spec:
   replicas: 2
   selector:
@@ -14,9 +14,29 @@ spec:
     spec:
       containers:
       - name: predictor
-        image: selvaganapathi1009/car-price-predictor
+        image: selvaganapathi1009/car-price-predictor:latest  # ✅ Ensuring correct image
+        imagePullPolicy: Always
         ports:
-        - containerPort: 8000
+        - containerPort: 8000  # ✅ Matches Django/Flask app port
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-secrets
+              key: accessKey
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secrets
+              key: secretKey
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -28,5 +48,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8000
+    targetPort: 8000  # ✅ Ensuring traffic reaches the right container port
   type: LoadBalancer
