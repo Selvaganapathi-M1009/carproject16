@@ -16,11 +16,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: loadbalancer-pod
+  name: loadbalancer-pod  # ✅ Matches Jenkins script
 spec:
-  replicas: 3  # Corrected to 'replicas'
+  replicas: 3  # ✅ Ensures multiple pods for load balancing
   selector:
-    matchLabels:  # Corrected to 'matchLabels'
+    matchLabels:
       app: hello
   template:
     metadata:
@@ -29,5 +29,7 @@ spec:
     spec:
       containers:
       - name: hello
-        image: selvaganapathi1009/newimage:latest
+        image: selvaganapathi1009/newimage:latest  # ✅ Ensures correct image
         imagePullPolicy: Always
+        ports:
+        - containerPort: 80  # ✅ Ensures the container listens on the correct port
